@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+    function App() {
+      return (
+        <>
+          <ColorPicker />
+        </>
+      );
+    }
+
+    function ColorPicker() {
+      const [color, setColor] = React.useState(null);
+      const [error, setError] = React.useState(null);
+
+      const handleColorChange = (e) => {
+        const newColor = e.target.value;
+        if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(newColor)) {
+          setColor(newColor);
+          setError(null);
+        } else {
+          setError("Please enter a valid HEX color value");
+          setColor(null);
+        }
+      };
+
+      return (
+        <>
+          <label htmlFor="colorInput">Enter a HEX color value : </label>
+          <input
+            type="text"
+            placeholder="#FFFFFF"
+            onChange={handleColorChange}
+            style={{
+              borderColor: error !== null ? "red" : "green",
+            }}
+          />
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <div
+            style={{
+              width: "500px",
+              height: "300px",
+              marginTop: "10px",
+              border: "1px solid #ccc",
+              backgroundColor: color,
+            }}
+          ></div>
+        </>
+      );
+    }
+
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>

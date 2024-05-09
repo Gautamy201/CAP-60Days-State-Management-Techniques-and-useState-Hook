@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // create question option and correct answer object
+    const quizData = [
+      {
+        id: 1,
+        question: "Who had composed the original Ramayana?",
+        options: ["Rishi Valmiki", "Tulsi Das", "Sant Ek Nath", "Anhinanda"],
+        correctAnswer: "Rishi Valmiki",
+      },
+      {
+        id: 2,
+        question: "Lakshmana is considered to be the incarnation of whom?",
+        options: ["Lord Vishnu", "Lord Shiva", "Lord Brahma", "Sheshnag"],
+        correctAnswer: "Sheshnag",
+      },
+      {
+        id: 3,
+        question:
+          "What was the name of the forest where Lord Rama, Lakshmana and Goddess Sita stayed during exile?",
+        options: ["Aranya", "Aranyak", "Dandakaranya", "Karanya"],
+        correctAnswer: "Dandakaranya",
+      },
+      {
+        id: 4,
+        question: "Ravana was a devotee of who among the following God?",
+        options: ["Vishnu", "Brahma", "Shiva", "None of the above"],
+        correctAnswer: "Shiva",
+      },
+      {
+        id: 4,
+        question: "Ravana was a devotee of who among the following God?",
+        options: ["Vishnu", "Brahma", "Shiva", "None of the above"],
+        correctAnswer: "Shiva",
+      },
+    ];
+
+    // --------------------------------------
+    function App() {
+      console.log(quizData.length);
+      const [currentQuestion, setCurrentQuestion] = React.useState(0);
+      const [score, setScore] = React.useState(0);
+      const { question, options } = quizData[currentQuestion];
+
+      const [currentAnswer, setCurrentAnswer] = React.useState(null);
+
+      function handleOptionValue(e, option) {
+        setCurrentAnswer(option);
+      }
+
+      function handleQuizSubmiteButton() {
+        setCurrentAnswer(null);
+        setCurrentQuestion(currentQuestion + 1);
+        if (currentAnswer === quizData[currentQuestion].correctAnswer) {
+          setScore(score + 1);
+        }
+      }
+
+      function handleQuizRestartButton() {
+        setCurrentQuestion(0);
+        setScore(0);
+      }
+      console.log(currentQuestion);
+
+      return (
+        <>
+          <div
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "80px",
+              transform: "translate(-50%)",
+              width: "600px",
+            }}
+          >
+            <h1 style={{ textAlign: "center", letterSpacing: "1px" }}>
+              My Quiz
+            </h1>
+            {currentQuestion < quizData.length - 1 ? (
+              <div>
+                <h3
+                  style={{
+                    fontSize: "25px",
+                    width: "100%",
+                  }}
+                >
+                  {currentQuestion + 1}. {question}
+                </h3>
+                <p>
+                  <ul
+                    style={{
+                      listStyleType: "none",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "10px",
+                      margin: "20px 0",
+                    }}
+                  >
+                    {options.map((option, index) => (
+                      <li style={{ fontSize: "20px" }}>
+                        <input
+                          type="radio"
+                          name="answer"
+                          onClick={() => handleOptionValue(event, option)}
+                        />
+                        <label for="">{option}</label>
+                      </li>
+                    ))}
+                  </ul>
+                </p>
+                <button
+                  style={{ width: "100%", padding: "5px", fontSize: "20px" }}
+                  onClick={handleQuizSubmiteButton}
+                >
+                  Submit
+                </button>
+              </div>
+            ) : (
+              <div style={{ textAlign: "center" }}>
+                <h1>Your score is {score}</h1>
+                <button
+                  style={{ width: "100%", padding: "5px", fontSize: "20px" }}
+                  onClick={handleQuizRestartButton}
+                >
+                  Restart
+                </button>
+              </div>
+            )}
+          </div>
+        </>
+      );
+    }
+
+    const root = document.getElementById("root");
+    ReactDOM.createRoot(root).render(<App />);
+  </script>
+</html>
